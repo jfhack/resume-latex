@@ -60,3 +60,24 @@ The following Markdown syntax is supported and converted into LaTeX commands:
 | `\|----\|:----:\|`             | table with column alignment                      | `\begin{tabular} ... \end{tabular}` |
 
 Any content not matching the supported Markdown will be passed directly as LaTeX. For example, content following a `%` is treated as a comment in LaTeX and will not be rendered unless escaped as `\%`.
+
+---
+
+## Docker
+
+This tool can be executed using Docker, eliminating the need to install all dependencies locally. The working directory is mounted to `/data` in the container, and any provided arguments are passed directly to the script.
+
+The Docker image includes both `lualatex` and `pdflatex`, which enables immediate conversion of a Markdown file to PDF.
+
+- **Default Compiler:** `lualatex` is used by default.
+- **Alternate Compiler:** To use `pdflatex`, the `LATEX_COMPILER` environment variable should be set accordingly.
+
+For example, after cloning the repository, the following command converts the example file `sample.md`:
+
+```sh
+docker run --rm -it -v ./data:/data ghcr.io/jfhack/resume-latex sample.md
+```
+
+Upon execution, the `./data` directory will contain both `sample.tex` and `sample.pdf`.
+
+This configuration also permits the maintenance of multiple Markdown versions for different job applications or languages (e.g., `resume.fr.md`, `resume.ru.md`, `resume.pangeasoftware.md`, etc.), allowing for quick updates when required.
