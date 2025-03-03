@@ -1,0 +1,4 @@
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}

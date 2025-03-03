@@ -6,6 +6,15 @@ __pycache__/
 # C extensions
 *.so
 
+*.txt
+!headers/russian.txt
+*.aux
+*.out
+*.tex
+*.pdf
+data/*
+!data/sample.md
+
 # Distribution / packaging
 .Python
 build/
