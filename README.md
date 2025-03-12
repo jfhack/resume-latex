@@ -80,4 +80,23 @@ docker run --rm -it -v ./data:/data ghcr.io/jfhack/resume-latex sample.md
 
 Upon execution, the `./data` directory will contain both `sample.tex` and `sample.pdf`.
 
-This configuration also permits the maintenance of multiple Markdown versions for different job applications or languages (e.g., `resume.fr.md`, `resume.ru.md`, `resume.pangeasoftware.md`, etc.), allowing for quick updates when required.
+This configuration also permits the maintenance of multiple Markdown versions for different job applications or languages e.g., `fr/resume.md`, `ru/resume.md`, `pangeasoftware/resume.md`, etc., allowing for quick updates when required.
+
+Alternatively, the following script can be used to execute the above command in a simplified manner
+
+```sh
+./docker-resume-latex.sh sample.md
+```
+
+```sh
+./docker-resume-latex.sh fr/resume.md
+```
+
+```sh
+./docker-resume-latex.sh -e /headers/russian.txt ru/resume.md
+```
+
+Which will work with the files inside `./data`
+
+> [!TIP]
+> If you use any automated tool like ChatGPT to process the content of the Markdown document, it is important to specify that the content is mixed, i.e. Markdown and LaTeX, and that it should preserve escaped characters like \\, \#, \& and so on
