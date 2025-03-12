@@ -99,4 +99,4 @@ Alternatively, the following script can be used to execute the above command in 
 Which will work with the files inside `./data`
 
 > [!TIP]
-> If you use any automated tool like ChatGPT to process the content of the Markdown document, it is important to specify that the content is mixed, i.e. Markdown and LaTeX, and that it should preserve escaped characters like \\, \#, \& and so on
+> If you use any automated tool like ChatGPT to process the content of the Markdown document, it is important to specify that the content is mixed, i.e. Markdown and LaTeX, and that it should preserve escaped characters like `\\`, `\#`, `\&` and so on
