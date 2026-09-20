@@ -74,8 +74,14 @@ class Converter:
                 while list_stack:
                     latex_lines.append("  " * len(list_stack) + "\\end{itemize}")
                     list_stack.pop()
+                blank_start = i
+                while i < n and md_lines[i].strip() == "":
+                    i += 1
                 latex_lines.append("")
-                i += 1
+                if blank_start > 0 and i < n:
+                    for _ in range(i - blank_start - 1):
+                        latex_lines.append("\\vspace{\\baselineskip}")
+                        latex_lines.append("")
                 continue
             if line.lstrip().startswith("|") and (i+1 < n):
                 next_line = md_lines[i+1].rstrip("\n")

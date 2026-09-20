@@ -58,6 +58,9 @@ The following Markdown syntax is supported and converted into LaTeX commands:
 | `## section`                   | section header                                   | `\section{...}`     |
 | `- item` or `* item`           | bullet list (supports nesting)                   | `\begin{itemize} ... \end{itemize}` |
 | `\|----\|:----:\|`             | table with column alignment                      | `\begin{tabular} ... \end{tabular}` |
+| two empty lines                | extra vertical space between blocks              | `\vspace{\baselineskip}`            |
+
+A single empty line is just a paragraph break, as in Markdown. Each **additional** consecutive empty line adds one `\vspace{\baselineskip}`, so three empty lines produce two of them. Empty lines at the very beginning or the very end of the content are ignored.
 
 Any content not matching the supported Markdown will be passed directly as LaTeX. For example, content following a `%` is treated as a comment in LaTeX and will not be rendered unless escaped as `\%`.
 
