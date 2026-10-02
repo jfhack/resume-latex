@@ -31,6 +31,8 @@ The resulting output will be a `sample.pdf` file
 | (Required) || path to the input Markdown (`.md`) file |
 | -o OUTPUT | --output OUTPUT | specify the output LaTeX file path. <br> _Default: Uses the input filename with a `.tex` extension._ |
 | -e INPUT  | --extra-header INPUT | path to a file whose contents will be inserted as extra lines in the final LaTeX document before the `\begin{document}` command |
+| -n | --no-hyphenpenalty | omit the `\hyphenpenalty=10000` line. <br> _Default: the line is added just before `\begin{document}` to prevent words from being hyphenated._ |
+| -x | --exhyphenpenalty | also add `\exhyphenpenalty=10000`, which additionally prevents line breaks at explicit hyphens, e.g. `state-of-the-art`. <br> _Default: not added, since forbidding those breaks can push long hyphenated words into the margin._ |
 
 ---
 

@@ -137,7 +137,7 @@ class Converter:
             list_stack.pop()
         return latex_lines
 
-    def convert(self, input_path, output_path, extra_header_path=None):
+    def convert(self, input_path, output_path, extra_header_path=None, hyphenpenalty=True, exhyphenpenalty=False):
         try:
             md_lines = input_path.read_text(encoding='utf-8').splitlines()
         except IOError:
@@ -158,6 +158,8 @@ class Converter:
             "\\usepackage{parskip}",
             "\\usepackage[hidelinks]{hyperref}",
             *extra_header_lines,
+            *(["\\hyphenpenalty=10000"] if hyphenpenalty else []),
+            *(["\\exhyphenpenalty=10000"] if exhyphenpenalty else []),
             "\\begin{document}"
         ]
         header_block = ["\\begin{center}",
@@ -184,14 +186,18 @@ def main():
     parser.add_argument("input", help="Input Markdown file")
     parser.add_argument("-o", "--output", help="Output LaTeX file")
     parser.add_argument("-e", "--extra-header", help="File that contains extra LaTeX lines before \\begin{document}")
+    parser.add_argument("-n", "--no-hyphenpenalty", action="store_true", help="Do not add \\hyphenpenalty=10000 before \\begin{document}")
+    parser.add_argument("-x", "--exhyphenpenalty", action="store_true", help="Also add \\exhyphenpenalty=10000 before \\begin{document}")
 
     args = parser.parse_args()
-    
+
     input_path = Path(args.input)
     output_path = Path(args.output) if args.output else input_path.with_suffix('.tex')
     extra_header_path = Path(args.extra_header) if args.extra_header else None
     converter = Converter()
-    converter.convert(input_path, output_path, extra_header_path)
+    converter.convert(input_path, output_path, extra_header_path,
+                      hyphenpenalty=not args.no_hyphenpenalty,
+                      exhyphenpenalty=args.exhyphenpenalty)
 
 if __name__ == '__main__':
     main()
