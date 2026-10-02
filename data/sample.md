@@ -16,11 +16,13 @@ Experienced software engineer with a strong background in full-stack development
 - Improved system performance and reliability through automated testing and CI/CD pipelines.
 - Mentored junior developers and led code review sessions.
 
+
 **Software Engineer, Web Solutions Corp.** \hfill (2016 -- 2020)  \\
 *Location: San Francisco, CA*  
 - Developed responsive web applications using Angular and Node.js.
 - Collaborated with cross-functional teams to implement user-centric designs.
 - Optimized database queries, reducing latency by 30%.
+
 
 ## Education
 **B.Sc. in Computer Science**  
