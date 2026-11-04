@@ -4,6 +4,15 @@ if [ -z "$LATEX_COMPILER" ]; then
     LATEX_COMPILER="lualatex"
 fi
 
+export openout_any=p
+
+latex_flags=(-no-shell-escape)
+case "$(basename -- "$LATEX_COMPILER")" in
+    lualatex|luahbtex|luatex|dviluatex)
+        latex_flags+=(--nosocket)
+        ;;
+esac
+
 output_path=$(resume_converter "$@" | tail -n 1)
 
 if [ -f "$output_path" ]; then
@@ -15,7 +24,7 @@ if [ -f "$output_path" ]; then
         output_path="$file"
     fi
 
-    "$LATEX_COMPILER" "$output_path"
+    "$LATEX_COMPILER" "${latex_flags[@]}" "$output_path"
     if [ $? -eq 0 ]; then
         echo "The file '$output_path' was successfully compiled."
 

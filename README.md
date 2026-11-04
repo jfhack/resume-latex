@@ -47,6 +47,37 @@ The resulting output will be a `sample.pdf` file
 
 ---
 
+## Security
+
+The input is a **mix of Markdown and raw LaTeX**, so any LaTeX you write in the
+`.md` file is compiled as-is. That is the feature that lets you drop in
+`\hfill`, tables, `\footnote`, and so on. Because the LaTeX engine is a full
+programming environment, only compile resume files **you trust**. Treat a `.md`
+file, or any file you pass to `-e/--extra-header`, the same way you would treat
+a script you are about to run.
+
+When you build through Docker, an untrusted document is contained on two levels:
+
+- **Compiler sandbox** (`entry.sh`, applied to every compile). The engine runs
+  with `-no-shell-escape`, so `\write18` cannot spawn shell commands (in LuaTeX
+  this also disables `os.execute` and `io.popen`). It runs with `openout_any=p`,
+  so it can only write inside the working directory, never an absolute or parent
+  path. For LuaTeX it also runs with `--nosocket`, so `\directlua` cannot open a
+  network connection.
+- **Container sandbox** (`docker-resume-latex.sh`). The image runs as a
+  non-root user, with `--network none`, and mounts only `./data` (read-write,
+  for your output) and `./headers` (read-only).
+
+A LaTeX document can still read a file into the PDF with `\input`, or write a
+file inside the output directory. Removing that would mean losing the
+Markdown-plus-LaTeX feature, so the container sandbox is what keeps it safe:
+reads only reach the public image and the files you mounted, writes stay in your
+output directory, and nothing can reach the network or the rest of your machine.
+Prefer the Docker path for any resume you did not write yourself. If you run
+`lualatex` or `pdflatex` directly on your host instead, you lose that
+containment and reads and writes hit your real filesystem, so pass at least
+`-no-shell-escape` and treat the input as code.
+
 ## Supported Markdown
 
 The following Markdown syntax is supported and converted into LaTeX commands:
@@ -80,7 +111,7 @@ The Docker image includes both `lualatex` and `pdflatex`, which enables immediat
 For example, after cloning the repository, the following command converts the example file `sample.md`:
 
 ```sh
-docker run --rm -it -v ./data:/data ghcr.io/jfhack/resume-latex sample.md
+docker run --rm -it --network none -v ./data:/data ghcr.io/jfhack/resume-latex sample.md
 ```
 
 Upon execution, the `./data` directory will contain both `sample.tex` and `sample.pdf`.

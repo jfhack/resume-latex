@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run --rm -it -v ./headers:/headers -v ./data:/data ghcr.io/jfhack/resume-latex "$@"
+docker run --rm -it --network none -v ./headers:/headers:ro -v ./data:/data ghcr.io/jfhack/resume-latex "$@"
